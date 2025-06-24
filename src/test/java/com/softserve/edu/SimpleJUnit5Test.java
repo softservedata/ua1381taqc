@@ -2,7 +2,7 @@ package com.softserve.edu;
 
 import org.junit.jupiter.api.*;
 
-public class SimpleJUnit5 {
+public class SimpleJUnit5Test {
 
     @BeforeAll
     public static void setup() {
