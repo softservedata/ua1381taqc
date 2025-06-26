@@ -2,15 +2,18 @@ package com.softserve.selen;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.openqa.selenium.support.ui.Select;
 
 import java.time.Duration;
+import java.util.List;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class SelenTest {
+public class SelectTest {
+
     private final Long IMPLICITLY_WAIT_SECONDS = 10L;
 
     private WebDriver driver;
@@ -39,8 +42,10 @@ public class SelenTest {
 
     @BeforeEach
     public void setupThis() throws InterruptedException {
+        String pagePath = this.getClass().getResource("/page.html").getPath();
+        System.out.println("pagePath = " + pagePath);
         //driver.get("https://www.bing.com/");
-        driver.navigate().to("https://www.bing.com/"); // Add History
+        driver.navigate().to("file://" + pagePath); // Add History
         Thread.sleep(1000); // For Presentation
     }
 
@@ -54,24 +59,20 @@ public class SelenTest {
     public void checkSearch() throws InterruptedException {
         System.out.println("Start checkSearch()");
         //
-        WebElement div = driver.findElement(By.id("sb_form_c"));
-        System.out.println("find div ... done");
-        Thread.sleep(1000); // For Presentation
+        WebElement selectTag = driver.findElement(By.tagName("select"));
+        selectTag.click();
+        List<WebElement> allOptions = selectTag.findElements(By.tagName("option"));
+        for (WebElement option : allOptions) {
+            //if (option.getAttribute("value").equals("option2")) {
+            if (option.getText().contains("3")) {
+                option.click();
+                selectTag.click();
+                Thread.sleep(4000); // For Presentation
+            }
+        }
         //
-        WebElement q = div.findElement(By.xpath("./div/textarea")); // XPath Ok
-        q.sendKeys("mac");
-        System.out.println("type mac ... done");
-        Thread.sleep(1000); // For Presentation
-        //
-        //driver.findElement(By.name("q")).sendKeys(Keys.ENTER);
-        //System.out.println("click ENTER ... done");
-        driver.findElement(By.cssSelector("label.search svg")).click();
-        System.out.println("click search ... done");
-        Thread.sleep(1000); // For Presentation
-        //
-        System.out.println("driver.getTitle() = " + driver.getTitle());
-        System.out.println("driver.getCurrentUrl() = " + driver.getCurrentUrl());
-        //Assertions.assertEquals("mac - Search", driver.getTitle());
-        Assertions.assertTrue(driver.getCurrentUrl().contains("/search?q=mac"));
+        Select select = new Select(driver.findElement(By.tagName("select")));
+        select.selectByVisibleText("Option 1");
+        Thread.sleep(2000); // For Presentation
     }
 }
