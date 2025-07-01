@@ -2,7 +2,7 @@ package com.softserve.param;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
-public class App {
+public class AppDotEnv {
 
     public static void main(String[] args) {
         Dotenv dotenv = Dotenv.load();
