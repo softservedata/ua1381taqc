@@ -1,6 +1,7 @@
 package com.softserve.selen;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -88,6 +89,9 @@ public class PageFactoryTest {
 
     @Test
     public void checkLogin() {
+        SoftAssertions softAssertions = new SoftAssertions();
+        softAssertions.assertThat(2).isEqualTo(3);
+        //
         myAccount.click();
         presentationSleep(2); // For Presentation ONLY
         //
@@ -99,6 +103,8 @@ public class PageFactoryTest {
         email.clear();
         presentationSleep(); // For Presentation ONLY
         email.sendKeys("ha-ha-ha");
+        //
+        softAssertions.assertAll();
     }
 }
             
