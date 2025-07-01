@@ -17,6 +17,8 @@
         <org.slf4j.version>2.0.17</org.slf4j.version>
         <junit.jupiter.version>5.13.1</junit.jupiter.version>
         <junit.platform.version>1.13.1</junit.platform.version>
+        <!-- - - - - - Password - - - - - -->
+        <application.password>null123</application.password>
     </properties>
 
     <dependencies>
@@ -176,6 +178,11 @@
                         <include>**/*Test.java</include>
                         <!-- <include>**/SimpleJUnit5.java</include> -->
                     </includes>
+                    <systemPropertyVariables>
+                        <surefire.application.password>
+                            ${application.password}
+                        </surefire.application.password>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
 
