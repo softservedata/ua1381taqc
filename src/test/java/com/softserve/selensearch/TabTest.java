@@ -4,6 +4,8 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
@@ -23,6 +25,38 @@ public class TabTest {
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        }
+    }
+
+    public boolean isAlertPresent() {
+        try {
+            driver.switchTo().alert();
+            return true;
+        } catch (NoAlertPresentException ex) {
+            return false;
+        }
+    }
+
+    public boolean isAlertPresent2() {
+        try {
+            driver.getTitle();
+            return false;
+        } catch (UnhandledAlertException e) {
+            return true;
+        }
+    }
+
+    public boolean alertIsDisplayed() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(4));
+        try {
+            Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+            if (alert != null) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception ex) {
+            return false;
         }
     }
 
@@ -68,9 +102,18 @@ public class TabTest {
         driver.findElement(By.name("q")).sendKeys("mac" + Keys.ENTER);
         presentationSleep(2); // For Presentation ONLY
         //
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("alert('Welcome to TAQC');");
+        presentationSleep(2); // For Presentation ONLY
+        //
         for (String windowHandle : driver.getWindowHandles()) {
+            System.out.println("windowHandle = " + windowHandle);
             driver.switchTo().window(windowHandle);
             presentationSleep(2); // For Presentation ONLY
+            if (isAlertPresent()) {
+            //if (alertIsDisplayed()) {
+                driver.switchTo().alert().accept();
+            }
             System.out.println("Title = " + driver.getTitle());
         }
         //

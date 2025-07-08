@@ -51,7 +51,7 @@ public class GreencityLoginTest {
     }
 
     @Test
-    public void checkSearch() throws InterruptedException {
+    public void checkSignin() throws InterruptedException {
         System.out.println("\t\t@Test testSelen()");
         //
         driver.findElement(By.cssSelector(".ubsHomepage")).click();
