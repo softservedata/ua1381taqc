@@ -1,5 +1,6 @@
 package com.softserve.pageobj.pages;
 
+import com.softserve.pageobj.data.User;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -98,24 +99,26 @@ public class SiginPage {
         sendKeysPasswordField(password);
     }
 
-    private void signinForm(String email, String password) {
-        typeEmail(email);
-        typePassword(password);
+    //private void signinForm(String email, String password) {
+    private void signinForm(User user) {
+        typeEmail(user.getEmail());
+        typePassword(user.getPassword());
         clickSigninButton();
     }
 
-    public UbsPage SuccessfulSigninUbs(String validEmail, String validPassword) {
-        signinForm(validEmail, validPassword);
+    public UbsPage SuccessfulSigninUbs(User validUser) {
+        signinForm(validUser);
         return new UbsPage(driver);
     }
 
-    public GreencityPage SuccessfulSigninGreencity(String validEmail, String validPassword) {
-        signinForm(validEmail, validPassword);
+    public GreencityPage SuccessfulSigninGreencity(User validUser) {
+        signinForm(validUser);
         return new GreencityPage(driver);
     }
 
-    public SiginPage UnsuccessfulSigninGreencity(String invalidEmail, String invalidPassword) {
-        signinForm(invalidEmail, invalidPassword);
+    // public SiginPage UnsuccessfulSigninGreencity(String invalidEmail, String invalidPassword) {
+    public SiginPage UnsuccessfulSigninGreencity(User invalidUser) {
+        signinForm(invalidUser);
         return new SiginPage(driver);
     }
 }
