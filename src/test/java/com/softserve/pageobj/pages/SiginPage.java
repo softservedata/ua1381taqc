@@ -98,24 +98,24 @@ public class SiginPage {
         sendKeysPasswordField(password);
     }
 
-    public UbsPage SuccessfulSigninUbs(String validEmail, String validPassword) {
-        typeEmail(validEmail);
-        typePassword(validPassword);
+    private void signinForm(String email, String password) {
+        typeEmail(email);
+        typePassword(password);
         clickSigninButton();
+    }
+
+    public UbsPage SuccessfulSigninUbs(String validEmail, String validPassword) {
+        signinForm(validEmail, validPassword);
         return new UbsPage(driver);
     }
 
     public GreencityPage SuccessfulSigninGreencity(String validEmail, String validPassword) {
-        typeEmail(validEmail);
-        typePassword(validPassword);
-        clickSigninButton();
+        signinForm(validEmail, validPassword);
         return new GreencityPage(driver);
     }
 
     public SiginPage UnsuccessfulSigninGreencity(String invalidEmail, String invalidPassword) {
-        typeEmail(invalidEmail);
-        typePassword(invalidPassword);
-        clickSigninButton();
+        signinForm(invalidEmail, invalidPassword);
         return new SiginPage(driver);
     }
 }
