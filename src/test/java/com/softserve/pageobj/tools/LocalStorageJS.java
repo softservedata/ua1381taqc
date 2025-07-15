@@ -2,8 +2,12 @@ package com.softserve.pageobj.tools;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LocalStorageJS {
+    protected final Logger logger = LoggerFactory.getLogger(LocalStorageJS.class);
+    //
     private JavascriptExecutor javascriptExecutor;
 
     public LocalStorageJS(WebDriver webDriver) {
@@ -16,7 +20,12 @@ public class LocalStorageJS {
     }
 
     public void removeViewState() {
-        clearHiddenWebElement("#__VIEWSTATE", "value");
+        try {
+            clearHiddenWebElement("#__VIEWSTATE", "value");
+        } catch (Exception e) {
+            logger.warn("Element #__VIEWSTATE not found");
+            // Continue
+        }
     }
 
 

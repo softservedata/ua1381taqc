@@ -18,7 +18,7 @@ public class UbsTest extends TestGreencityRunner {
         return Stream.of(
                 //Arguments.of("lsd09559@kisoq.com", "Qwerty_12")
                 //Arguments.of(new User(59,"Qwerty","lsd09559@kisoq.com", "Qwerty_12"))
-                Arguments.of(UserRepository.getInvalidUser()),
+                //Arguments.of(UserRepository.getInvalidUser()),
                 Arguments.of(UserRepository.getInvalidUser())
         );
     }
@@ -27,6 +27,7 @@ public class UbsTest extends TestGreencityRunner {
     @MethodSource("loginProvider")
     //public void checkUnsucessfulSignin(String invalidEmail, String invalidPassword) throws InterruptedException {
     public void checkUnsucessfulSignin(User invalidUser) throws InterruptedException {
+        logger.info("checkUnsucessfulSignin()  started, invalidUser = " + invalidUser);
         SiginPage siginPage = loadApplication()
                 //.switchEnLanguage()
                 .switchUaLanguage()

@@ -12,6 +12,8 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,6 +32,8 @@ import java.util.stream.Stream;
 @ExtendWith(RunnerExtension.class)
 public abstract class TestGreencityRunner {
 
+    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
+    //
     private final String TIME_TEMPLATE = "yyyy-MM-dd_HH-mm-ss-S";
     private final Long IMPLICITLY_WAIT_SECONDS = 4L;
 
@@ -103,7 +107,7 @@ public abstract class TestGreencityRunner {
         if (!RunnerExtension.isTestSuccessful) {
             // Log.error
             // logger.error("Test_Display_Name = " + testInfo.getDisplayName() + " failed");
-            //logger.error("Test_Name = " + testInfo.getTestMethod() + " failed");
+            logger.error("Test_Name = " + testInfo.getTestMethod() + " failed");
             //
             System.out.println("\t\t\tTest_Name = " + testInfo.getDisplayName() + " fail");
             System.out.println("\t\t\tTest_Method = " + testInfo.getTestMethod() + " fail");

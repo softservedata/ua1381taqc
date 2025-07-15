@@ -4,6 +4,8 @@ import com.softserve.pageobj.data.User;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -11,6 +13,8 @@ public class SiginPage {
     public static final String INVALID_PASSWORD_UA = "Введено невірний email або пароль";
     public static final String INVALID_PASSWORD_EN = "Bad email or password";
 
+    protected final Logger logger = LoggerFactory.getLogger(SiginPage.class);
+    //
     private final String ALERT_PASSWORD_LABEL_CSS = "div.alert-general-error";
 
     private WebDriver driver;
@@ -24,6 +28,8 @@ public class SiginPage {
         emailField = driver.findElement(By.id("email"));
         passwordField = driver.findElement(By.id("password"));
         signinButton = driver.findElement(By.cssSelector("button[type='submit']"));
+        //
+        logger.debug("Constructor SiginPage() done");
     }
 
     // Atomic Operation
