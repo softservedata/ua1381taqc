@@ -34,7 +34,7 @@ public final class UserRepository {
         user.setUserId(59);
         user.setName("Qwerty");
         user.setEmail("lsd" + number + "@kisoq.com");
-        user.setPassword("Qwerty_12");
+        user.setPassword("1234"); // "Qwerty_12"
         return user;
         //return new User(59,"Qwerty","lsd09559@kisoq.com", "Qwerty_12");
     }

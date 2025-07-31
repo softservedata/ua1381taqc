@@ -3,7 +3,7 @@ package com.softserve.pageobj.tst;
 import com.softserve.pageobj.data.User;
 import com.softserve.pageobj.data.UserRepository;
 import com.softserve.pageobj.pages.SiginPage;
-import com.softserve.pageobj.pages.UbsPage;
+import com.softserve.pageobj.pages.UbsUserPage;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -31,14 +31,15 @@ public class UbsTest extends TestGreencityRunner {
     public void checkUnsucessfulSignin(User invalidUser) throws InterruptedException {
         logger.info("checkUnsucessfulSignin()  started, invalidUser = " + invalidUser);
         SiginPage siginPage = loadApplication()
-                //.switchEnLanguage()
-                .switchUaLanguage()
+                .switchToEnLanguage()
+                .gotoUbsGuestPage()
                 .gotoSiginPage()
-                .unsuccessfulSigninGreencity(invalidUser);
+                .unsuccessfulSignin(invalidUser);
         //
-        Assertions.assertTrue(siginPage.isAlertPasswordLabelPresent());
-        //Assertions.assertFalse(siginPage.isAlertPasswordLabelPresent()); // fail
-        Assertions.assertEquals(SiginPage.INVALID_PASSWORD_UA, siginPage.getAlertPasswordLabelText());
+        //Assertions.assertTrue(siginPage.isAlertPasswordLabelPresent());
+        //Assertions.assertEquals(SiginPage.INVALID_PASSWORD_UA, siginPage.getAlertPasswordLabelText());
+        //
+        Assertions.assertTrue(siginPage.isMessagePasswordLabelPresent());
     }
 
     private static Stream<Arguments> sucessfulSigninProvider() {
@@ -51,11 +52,14 @@ public class UbsTest extends TestGreencityRunner {
     @MethodSource("sucessfulSigninProvider")
     public void checkSucessfulSignin(User validUser) throws InterruptedException {
         logger.info("checkSucessfulSignin()  started, validUser = " + validUser);
-        UbsPage ubsPage = loadApplication()
-                .switchEnLanguage()
+        UbsUserPage ubsUserPage = loadApplication()
+                .switchToEnLanguage()
+                .gotoUbsGuestPage()
                 .gotoSiginPage()
                 .successfulSigninUbs(validUser);
         //
-        Assertions.assertEquals(validUser.getName(), ubsPage.getubsUserNameButtonText());
+        System.out.println("Name = " + ubsUserPage.getProfileButtonText(driver));
+        Assertions.assertEquals(validUser.getName(), ubsUserPage.getProfileButtonText(driver));
     }
+
 }

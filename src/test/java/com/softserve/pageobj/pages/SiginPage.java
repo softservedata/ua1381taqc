@@ -21,6 +21,7 @@ public class SiginPage {
 
     protected final Logger logger = LoggerFactory.getLogger(SiginPage.class);
     //
+    private final String MESSAGE_PASSWORD_LABEL_CSS = "div.validation-password-error div.margining.ng-star-inserted";
     private final String ALERT_PASSWORD_LABEL_CSS = "div.alert-general-error";
 
     private WebDriver driver;
@@ -90,6 +91,12 @@ public class SiginPage {
         getSigninButton().click();
     }
 
+    // MessagePasswordLabel
+    public boolean isMessagePasswordLabelPresent() {
+        List<WebElement> validators = driver.findElements(By.cssSelector(MESSAGE_PASSWORD_LABEL_CSS));
+        return validators.size() > 0;
+    }
+
     // AlertPasswordLabel
     public boolean isAlertPasswordLabelPresent() {
         List<WebElement> validators = driver.findElements(By.cssSelector(ALERT_PASSWORD_LABEL_CSS));
@@ -149,20 +156,25 @@ public class SiginPage {
         setItemLocalStorage("userId", signinResponse.getUserId());
     }
 
-    public UbsPage successfulSigninUbs(User validUser) {
+    public UbsUserPage successfulSigninUbs(User validUser) {
         signinForm(validUser);
         signinApi(validUser);
-        return new UbsPage(driver);
+        return new UbsUserPage(driver);
     }
 
-    public GreencityPage successfulSigninGreencity(User validUser) {
+    public GreencityUserPage successfulSigninGreencity(User validUser) {
         signinForm(validUser);
         signinApi(validUser);
-        return new GreencityPage(driver);
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return new GreencityUserPage(driver);
     }
 
     // public SiginPage UnsuccessfulSigninGreencity(String invalidEmail, String invalidPassword) {
-    public SiginPage unsuccessfulSigninGreencity(User invalidUser) {
+    public SiginPage unsuccessfulSignin(User invalidUser) {
         signinForm(invalidUser);
         return new SiginPage(driver);
     }

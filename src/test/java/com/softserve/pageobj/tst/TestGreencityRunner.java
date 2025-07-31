@@ -1,6 +1,6 @@
 package com.softserve.pageobj.tst;
 
-import com.softserve.pageobj.pages.UbsPage;
+import com.softserve.pageobj.pages.GreencityGuestPage;
 import com.softserve.pageobj.tools.LocalStorageJS;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.commons.io.FileUtils;
@@ -31,13 +31,13 @@ import java.util.stream.Stream;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(RunnerExtension.class)
 public abstract class TestGreencityRunner {
-
+    public static final Long IMPLICITLY_WAIT_SECONDS = 4L;
+    private final String TIME_TEMPLATE = "yyyy-MM-dd_HH-mm-ss-S";
+    //
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
     //
-    private final String TIME_TEMPLATE = "yyyy-MM-dd_HH-mm-ss-S";
-    private final Long IMPLICITLY_WAIT_SECONDS = 4L;
 
-    private WebDriver driver;
+    protected WebDriver driver;
     private LocalStorageJS localStorageJS;
 
     // Add test name
@@ -130,11 +130,11 @@ public abstract class TestGreencityRunner {
         Thread.sleep(4000); // For Presentation
     }
 
-    protected UbsPage loadApplication() throws InterruptedException {
+    protected GreencityGuestPage loadApplication() throws InterruptedException {
         //driver.navigate().to("https://www.pick-up.city/#/ubs");
-        driver.navigate().to("https://www.greencity.cx.ua/#/ubs");
+        driver.navigate().to("https://www.greencity.cx.ua/#/greenCity");
         Thread.sleep(1000); // For Presentation
-        return new UbsPage(driver);
+        return new GreencityGuestPage(driver);
     }
 
 }
