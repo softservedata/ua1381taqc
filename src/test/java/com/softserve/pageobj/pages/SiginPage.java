@@ -1,7 +1,10 @@
 package com.softserve.pageobj.pages;
 
+import com.softserve.pageobj.api.GuestActions;
+import com.softserve.pageobj.api.SigninResponse;
 import com.softserve.pageobj.data.User;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
@@ -12,12 +15,18 @@ import java.util.List;
 public class SiginPage {
     public static final String INVALID_PASSWORD_UA = "Введено невірний email або пароль";
     public static final String INVALID_PASSWORD_EN = "Bad email or password";
+    //
+    private final String UNDISABLE_LOGIN_BUTTON = "document.querySelector('button.ubsStyle').removeAttribute('disabled')";
+    private static final String LOCALSTORAGE_SET_ITEM = "window.localStorage.setItem('%s','%s');";
 
     protected final Logger logger = LoggerFactory.getLogger(SiginPage.class);
     //
     private final String ALERT_PASSWORD_LABEL_CSS = "div.alert-general-error";
 
     private WebDriver driver;
+    private JavascriptExecutor javascriptExecutor;
+    //
+    private GuestActions guestActions;
     //
     private WebElement emailField;
     private WebElement passwordField;
@@ -25,6 +34,10 @@ public class SiginPage {
 
     public SiginPage(WebDriver driver) {
         this.driver = driver;
+        javascriptExecutor = (JavascriptExecutor) driver;
+        //
+        guestActions = new GuestActions();
+        //
         emailField = driver.findElement(By.id("email"));
         passwordField = driver.findElement(By.id("password"));
         signinButton = driver.findElement(By.cssSelector("button[type='submit']"));
@@ -109,21 +122,47 @@ public class SiginPage {
     private void signinForm(User user) {
         typeEmail(user.getEmail());
         typePassword(user.getPassword());
+        //
+        undisableLoginButton();
         clickSigninButton();
     }
 
-    public UbsPage SuccessfulSigninUbs(User validUser) {
+    private void signinApi(User user) {
+        SigninResponse signinResponse = guestActions.signin(user);
+        updateLocalStorage(signinResponse);
+        driver.navigate().refresh();
+    }
+
+    private void undisableLoginButton() {
+        javascriptExecutor.executeScript(UNDISABLE_LOGIN_BUTTON);
+    }
+
+    public void setItemLocalStorage(String item, String value) {
+        javascriptExecutor.executeScript(String.format(LOCALSTORAGE_SET_ITEM, item, value));
+    }
+
+    private void updateLocalStorage(SigninResponse signinResponse) {
+        setItemLocalStorage("accessToken", signinResponse.getAccessToken());
+        setItemLocalStorage("language", "en");
+        setItemLocalStorage("name", signinResponse.getName());
+        setItemLocalStorage("refreshToken", signinResponse.getRefreshToken());
+        setItemLocalStorage("userId", signinResponse.getUserId());
+    }
+
+    public UbsPage successfulSigninUbs(User validUser) {
         signinForm(validUser);
+        signinApi(validUser);
         return new UbsPage(driver);
     }
 
-    public GreencityPage SuccessfulSigninGreencity(User validUser) {
+    public GreencityPage successfulSigninGreencity(User validUser) {
         signinForm(validUser);
+        signinApi(validUser);
         return new GreencityPage(driver);
     }
 
     // public SiginPage UnsuccessfulSigninGreencity(String invalidEmail, String invalidPassword) {
-    public SiginPage UnsuccessfulSigninGreencity(User invalidUser) {
+    public SiginPage unsuccessfulSigninGreencity(User invalidUser) {
         signinForm(invalidUser);
         return new SiginPage(driver);
     }

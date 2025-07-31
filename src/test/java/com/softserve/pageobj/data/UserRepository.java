@@ -16,6 +16,17 @@ public final class UserRepository {
         return null;
     }
 
+    public static User getValidUser() {
+        User user = new User();
+        user.setUserId(59);
+        user.setName("Qwerty");
+        user.setEmail("xvr89922@toaik.com");
+        user.setPassword("Qwerty_1");
+        user.setSecretKey("UD~3tDW<$K.rEk$IELFTVQwWU$-tN%IX~q>`NuMpxhUMb$D");
+        return user;
+        //return new User(59,"Qwerty","lsd09559@kisoq.com", "Qwerty_12");
+    }
+
     public static User getInvalidUser() {
         Random random = new Random();
         String number = String.valueOf(random.nextInt(10000));

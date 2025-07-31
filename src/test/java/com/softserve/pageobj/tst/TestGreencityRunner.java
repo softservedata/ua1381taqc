@@ -131,7 +131,8 @@ public abstract class TestGreencityRunner {
     }
 
     protected UbsPage loadApplication() throws InterruptedException {
-        driver.navigate().to("https://www.pick-up.city/#/ubs");
+        //driver.navigate().to("https://www.pick-up.city/#/ubs");
+        driver.navigate().to("https://www.greencity.cx.ua/#/ubs");
         Thread.sleep(1000); // For Presentation
         return new UbsPage(driver);
     }

@@ -7,19 +7,22 @@ public class User {
     private String name;
     private String email;
     private String password;
+    private String secretKey;
 
     public User() {
         userId = 0;
         name =  "";
         email =  "";
         password =  "";
+        secretKey =  "";
     }
 
-    public User(long userId, String name, String email, String password) {
+    public User(long userId, String name, String email, String password, String secretKey) {
         this.userId = userId;
         this.name = name;
         this.email = email;
         this.password = password;
+        this.secretKey = secretKey;
     }
 
     public long getUserId() {
@@ -38,6 +41,10 @@ public class User {
         return password;
     }
 
+    public String getSecretKey() {
+        return secretKey;
+    }
+
     public void setUserId(long userId) {
         this.userId = userId;
     }
@@ -54,16 +61,20 @@ public class User {
         this.password = password;
     }
 
+    public void setSecretKey(String secretKey) {
+        this.secretKey = secretKey;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return userId == user.userId && Objects.equals(name, user.name) && Objects.equals(email, user.email) && Objects.equals(password, user.password);
+        return userId == user.userId && Objects.equals(name, user.name) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(secretKey, user.secretKey);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, name, email, password);
+        return Objects.hash(userId, name, email, password, secretKey);
     }
 
     @Override
@@ -73,6 +84,7 @@ public class User {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", secretKey='" + secretKey + '\'' +
                 '}';
     }
 }

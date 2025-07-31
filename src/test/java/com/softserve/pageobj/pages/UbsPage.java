@@ -15,11 +15,13 @@ public class UbsPage extends TopPart {
 
     private WebElement greenCityLink;
     private WebElement languageLink;
+    private WebElement ubsUserNameButton;
 
     public UbsPage(WebDriver driver) {
         super(driver);
         //greenCityLink = driver.findElement(By.cssSelector("div.header_navigation-menu-ubs a[href*='/greenCity']"));
         languageLink = driver.findElement(By.cssSelector("ul[aria-label*='language'] li[role='option'] > span"));
+        ubsUserNameButton = driver.findElement(By.cssSelector("li.ubs-user-name"));
     }
 
     // Atomic Operation
@@ -62,6 +64,20 @@ public class UbsPage extends TopPart {
     public void clickLanguageOptionLink() {
         getLanguageOptionLink().click();
     }
+
+    // ubsUserNameButton
+    public WebElement getubsUserNameButton() {
+        return driver.findElement(By.cssSelector(LANGUAGE_OPTION_LINK_CSS));
+    }
+
+    public String getubsUserNameButtonText() {
+        return getubsUserNameButton().getText().trim();
+    }
+
+    public void clickubsUserNameButton() {
+        getubsUserNameButton().click();
+    }
+
 
     // Busness Operation
 
